@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "lastId": 3
+  },
+  "feedbacks": {
+    "1": {
+      "email": "john.doe@example.com",
+      "name": "John Doe",
+      "message": "Great app! Really helpful.",
+      "votes": 5
+    },
+    "2": {
+      "email": "jane.smith@example.com",
+      "name": "Jane Smith",
+      "message": "UI could be improved, but solid effort.",
+      "votes": 2
+    },
+    "3": {
+      "email": "bob.marley@example.com",
+      "name": "Bob Marley",
+      "message": "I had some issues submitting feedback.",
+      "votes": -1
+    }
+  }
+}
