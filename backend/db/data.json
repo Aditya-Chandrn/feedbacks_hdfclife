@@ -1,6 +1,6 @@
 {
   "meta": {
-    "lastId": 3
+    "lastId": 9
   },
   "feedbacks": {
     "1": {
@@ -19,7 +19,7 @@
       "email": "bob.marley@example.com",
       "name": "Bob Marley",
       "message": "I had some issues submitting feedback.",
-      "votes": -1
+      "votes": -2
     }
   }
 }

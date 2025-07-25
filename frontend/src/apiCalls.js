@@ -6,12 +6,12 @@ export async function createFeedbackApiCall(feedback) {
   try {
     const res = await axios.post(
       `${SERVER_URL}`,
+      { feedback },
       {
         headers: {
           "Content-Type": "application/json",
         },
-      },
-      { feedback }
+      }
     );
     return res.data;
   } catch (err) {
@@ -53,12 +53,12 @@ export async function voteFeedbackApiCall(feedbackId, voteType) {
   try {
     const res = await axios.put(
       `${SERVER_URL}/${feedbackId}/vote`,
+      { voteType }, // body
       {
         headers: {
           "Content-Type": "application/json",
         },
-      },
-      voteType
+      }
     );
     return res.data;
   } catch (err) {

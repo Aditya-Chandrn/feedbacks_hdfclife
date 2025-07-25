@@ -2,10 +2,11 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// Required to simulate __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// This will now correctly point to db/data.json regardless of where the server is run from
+// Path to the data.json database file
 const DB_FILE_PATH = path.join(__dirname, "data.json");
 
 class Feedback {
@@ -16,43 +17,44 @@ class Feedback {
     this.votes = 0;
   }
 
+  // Read and parse JSON data from DB file
   readDb() {
     return JSON.parse(fs.readFileSync(DB_FILE_PATH, "utf-8"));
   }
 
+  // Write updated data to the DB file
   writeDb(data) {
     fs.writeFileSync(DB_FILE_PATH, JSON.stringify(data, null, 2), "utf-8");
   }
 
+  // Create a new feedback entry with an auto-incremented ID
   create() {
     const db = this.readDb();
     const newId = db.meta.lastId + 1;
 
     db.feedbacks[newId] = this;
     db.meta.lastId = newId;
+
     this.writeDb(db);
     return true;
   }
 
+  // Get a single feedback by ID
   getById(id) {
     const db = this.readDb();
-    const fb = db.feedbacks[id];
-
-    if (!fb) return null;
-
-    return new Feedback(fb.email, fb.name, fb.message);
+    return db.feedbacks[id];
   }
 
+  // Get all feedbacks as an array with ID included
   getAll() {
     const db = this.readDb();
-    const data = Object.entries(db.feedbacks).map(([id, feedback]) => ({
+    return Object.entries(db.feedbacks).map(([id, feedback]) => ({
       id,
       ...feedback,
     }));
-
-    return data;
   }
 
+  // Delete feedback by ID
   deleteById(id) {
     const db = this.readDb();
 
@@ -63,14 +65,18 @@ class Feedback {
     return true;
   }
 
+  // Update allowed fields of feedback by ID
   updateById(id, data) {
     const db = this.readDb();
 
     if (!db.feedbacks[id]) return false;
-    const allowedFields = ["email", "name", "feedback", "vote"];
+
+    const allowedFields = ["email", "name", "message", "votes"];
 
     for (const field of Object.keys(data)) {
-      if (allowedFields.includes(field)) db.feedbacks[id][field] = data[field];
+      if (allowedFields.includes(field)) {
+        db.feedbacks[id][field] = data[field];
+      }
     }
 
     this.writeDb(db);
